@@ -1,0 +1,1 @@
+<view class="goodsHeader"><image src="{{good.src}}" mode></image><view class="tit_box"><text class="tit">{{good.title}}</text><text class="tit2">{{good.title2}}</text></view><text class="yticon icon-you"></text></view>

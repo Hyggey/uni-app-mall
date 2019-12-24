@@ -1,0 +1,367 @@
+<template>
+	<view class="content">
+		<!-- 小程序头部兼容 -->
+		<!-- #ifdef MP -->
+		<view class="search_box">
+			<input class="ser_input" type="text" value="输入关键字搜索" />
+		</view>
+		<!-- #endif -->
+		
+		<!-- 轮播图区域 -->
+		<view class="carousel_section">
+			<swiper class="carousel" :indicator-dots="true" :autoplay="false" :interval="3000" :duration="1000">
+				<swiper-item class="carousel_item" v-for="(item,index) in carouselList" :key="index">
+					<view class="swiper-item">
+						<image :src="item.src" mode=""></image>
+					</view>
+				</swiper-item>
+			</swiper>
+		</view>
+		
+		<!-- 小分类 -->
+		<view class="cate_section">
+			<view class="cate_item">
+				<image src="/static/temp/c3.png" mode=""></image>
+				<text>环球美食</text>
+			</view>
+			<view class="cate_item">
+				<image src="/static/temp/c5.png"></image>
+				<text>个护美妆</text>
+			</view>
+			<view class="cate_item">
+				<image src="/static/temp/c6.png"></image>
+				<text>营养保健</text>
+			</view>
+			<view class="cate_item">
+				<image src="/static/temp/c7.png"></image>
+				<text>家居厨卫</text>
+			</view>
+			<view class="cate_item">
+				<image src="/static/temp/c8.png"></image>
+				<text>速食生鲜</text>
+			</view>
+		</view>
+		
+		<view class="ad-1">
+			<image src="/static/temp/ad1.jpg" mode="scaleToFill"></image>
+		</view>
+		
+		<!-- 限时秒杀 -->
+		<view class="seckill_section m_t">
+			<view class="header">
+				<image src="/static/temp/secskill-img.jpg" mode="widthFix"></image>
+				<text class="tip">8点场</text>
+				<text class="timer">07</text>
+				<text class="timer">13</text>
+				<text class="timer">54</text>
+				<text class="yticon icon-you"></text>
+			</view>
+			<scroll-view class="floor_list" scroll-x="true" >
+				<view class="scoll_wrapper">
+					<view class="floor_item" v-for="(item,index) in goodsList" :key="index">
+						<image :src="item.image" mode="aspectFill"></image>
+						<text class="title">{{item.title}}</text>
+						<text class="price">￥{{item.price}}</text>
+					</view>
+				</view>
+			</scroll-view>
+		</view>
+		
+		<!--  精品团购-->
+		<view class="m_t">
+			<goodsHeader :good="goods"></goodsHeader>
+			<view class="group-section">
+				<swiper class="g-swiper" :autoplay="false" :interval="3000" :duration="1000">
+					<swiper-item class="g-swiper-item" 
+					v-for="(item,index) in goodsList" :key="index" v-if="index%2 === 0">
+						<view class="g-item left">
+							<image :src="item.image" mode="aspectFill"></image>
+							<view class="t-box">
+								<text class="title">{{item.title}}</text>
+								<view class="price-box">
+									<text class="price">￥{{item.price}}</text>
+									<text class="no-price">￥188</text>
+								</view>
+								<view class="pro-box">
+									<view class="progress-box">
+										<progress percent="72" activeColor="#fa436a" active stroke-width="6" />
+									</view>
+									<text>6人成团</text>
+								</view>
+							</view>
+						</view>
+						<view class="g-item right">
+							<image :src="goodsList[index+1].image2" mode="aspectFill"></image>
+							<view class="t-box">
+								<text class="title">{{goodsList[index+1].title}}</text>
+								<view class="price-box">
+									<text class="price">￥{{goodsList[index+1].price}}</text>
+									<text class="no-price">￥188</text>
+								</view>
+								<view class="pro-box">
+									<view class="progress-box">
+										<progress percent="72" activeColor="#fa436a" active stroke-width="6" />
+									</view>
+									<text>10人成团</text>
+								</view>
+							</view>
+						</view>
+					</swiper-item>
+				</swiper>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import goodsHeader from '@/components/goodsHeader.vue'
+	export default {
+		data() {
+			return {
+				carouselList:[]   ,// 轮播图数组
+				goodsList:[],       // 所有商品的数组
+				goods:{             // 精品团购头部
+					src:'/static/temp/h1.png',
+					title:'精品团购',
+					title2:'putpetgewgj'
+				}
+			}
+		},
+		onLoad() {
+			this.getData()
+		},
+		components:{
+			goodsHeader
+		},
+		methods: {
+			async getData(){
+				// 获取轮播图的接口
+				let carouselList = await this.$api.json('carouselList');
+				// console.log(carouselList)
+				this.carouselList = carouselList
+				let goodsList = await this.$api.json('goodsList')
+				console.log(goodsList)
+				this.goodsList = goodsList
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	page{
+		background: #f5f5f5;
+	}
+	.content{
+		// height: 100vh;
+		// background: red;
+		.search_box{
+			position: absolute;
+			top: 30rpx;
+			width: 100%;
+			padding: 0 80rpx;
+			box-sizing: border-box;
+			z-index: 999;
+			.ser_input{
+				height: 56rpx;
+				line-height: 56rpx;
+				background: rgba(255,255,255,.7);
+				border-radius: 20rpx;
+				font-size: 28rpx;
+				color: #606266;
+				text-align: center;
+			}
+		}
+		// 轮播图
+		.carousel_section{
+			.carousel{
+				width: 100%;
+				height: 350rpx;
+				.swiper-item{
+					width: 100%;
+					height: 100%;
+					image{
+						width: 100%;
+						height: 100%;
+					}
+				}
+			}
+		}
+		// 小分类
+		.cate_section{
+			display: flex;
+			justify-content: space-between;
+			padding: 22rpx 30rpx;
+			background: #FFFFFF;
+			position: relative;
+			margin-top: -20rpx;
+			border-radius: 16rpx 16rpx 0 0;
+			.cate_item{
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				font-size: 26rpx;
+				color: #333;
+				image{
+					width: 88rpx;
+					height: 88rpx;
+					border-radius: 50%;
+					opacity: .7;
+					margin-bottom: 15rpx;
+				}
+			}
+		}
+		.ad-1{
+			width: 100%;
+			height: 210rpx;
+			padding: 10rpx 0;
+			background: #FFFFFF;
+			image{
+				width: 100%;
+				height: 100%;
+			}
+		}
+		// 限时秒杀
+		.seckill_section{
+			padding: 4rpx 30rpx 24rpx;
+			background: #FFFFFF;
+			box-sizing: border-box;
+			.header{
+				height: 92rpx;
+				display: flex;
+				align-items: center;
+				line-height: 1;
+				image{
+					width: 140rpx;
+					height: 30rpx;
+				}
+				.tip{
+					margin: 0 15rpx 0 30rpx;
+					color: #999999;
+					font-size: 28rpx;
+				}
+				.timer{
+					font-size: 26rpx;
+					background: #000;
+					color: #FFFFFF;
+					border-radius: 5rpx;
+					margin-right: 10rpx;
+					width: 40rpx;
+					height: 36rpx;
+					text-align: center;
+					line-height: 36rpx;
+				}
+				.icon-you{
+					color: #909399;
+					flex: 1;
+					text-align: right;
+					font-size: 32rpx;
+				}
+			}
+		}
+		.m_t{
+			margin-top: 15rpx;
+		}
+		.floor_list{
+			white-space: nowrap;
+			.scoll_wrapper{
+				display: flex;
+				justify-content: flex-start;
+				.floor_item{
+					width: 150rpx;
+					font-size: 26rpx;
+					color: #303133;
+					margin-right: 20rpx;
+					image{
+						width: 150rpx;
+						height: 150rpx;
+						border-radius: 6rpx;
+					}
+					.title{
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+						display: block;
+					}
+					.price{
+						color: #fa436a;
+					}
+				}
+			}
+		}
+		// 精品团购
+		.group-section{
+			background: #FFFFFF;
+			.g-swiper{
+				height: 650rpx;
+				padding-bottom: 30rpx;   // 非常重要，不然两边对不齐
+				box-sizing: border-box;
+				.g-swiper-item{
+					padding: 0 30rpx;
+					box-sizing: border-box;
+					display: flex;
+					.g-item{
+						overflow: hidden;
+						image{
+							height: 460rpx;
+							width: 100%;
+							border-radius: 4px;
+						}
+						.t-box{
+							height: 160rpx;
+							font-size: 30rpx;
+							box-sizing: border-box;
+							color: #303133;
+							line-height: 1.6;
+							.title{
+								overflow: hidden;
+								text-overflow: ellipsis;
+								white-space: nowrap;
+								display: block;
+							}
+							.price-box{
+								.price{
+									color: #fa436a;
+								}
+								.no-price{
+									font-size: 26rpx;
+									text-decoration: line-through;
+									color: #909399;
+									margin-left: 10rpx;
+								}
+							}
+							.pro-box{
+								display: flex;
+								font-size: 24rpx;
+								align-items: center;
+								margin-top: 10rpx;
+								.progress-box{
+									flex: 1;
+									margin-right: 10rpx;
+									border-radius: 10rpx;
+									overflow: hidden;
+								}
+							}
+						}
+					}
+					.left{
+						display: flex;
+						flex-direction: column;
+						flex: 1.2;
+						margin-right: 24rpx;
+						.t-box{
+							padding-top: 20rpx;
+						}
+					}
+					.right{
+						display: flex;
+						flex-direction: column-reverse;
+						flex: 0.8;
+						.t-box{
+							padding-bottom: 20rpx;
+						}
+					}
+				}
+			}
+		}
+	}
+</style>
