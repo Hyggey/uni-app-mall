@@ -239,6 +239,45 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   data: function data() {
     return {
@@ -247,7 +286,22 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       goods: { // 精品团购头部
         src: '/static/temp/h1.png',
         title: '精品团购',
-        title2: 'putpetgewgj' } };
+        title2: 'Boutique Group Buying' },
+
+      classify: {
+        src: '/static/temp/h1.png',
+        title: '分类精选',
+        title2: 'Competitive Products For You' },
+
+      classifyImg: [
+      { src: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553409398864&di=4a12763adccf229133fb85193b7cc08f&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201703%2F19%2F20170319150032_MNwmn.jpeg" },
+      { src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553409984228&di=dee176242038c2d545b7690b303d65ea&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F5ef4da9f17faaf4612f0d5046f4161e556e9bbcfdb5b-rHjf00_fw658' },
+      { src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553409794730&di=12b840ec4f5748ef06880b85ff63e34e&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01dc03589ed568a8012060c82ac03c.jpg%40900w_1l_2o_100sh.jpg' }],
+
+      like: {
+        src: '/static/temp/h1.png',
+        title: '猜你喜欢',
+        title2: 'Guess You Like It' } };
 
 
   },
