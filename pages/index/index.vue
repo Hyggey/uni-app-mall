@@ -481,7 +481,7 @@
 						flex-direction: column;
 						align-items: center;
 						justify-content: center;
-						flex-shrink: 0;    // 非常重要，不然出来宽度
+						flex-shrink: 0;    // 非常重要，不然出不来宽度，防止被压缩 也可以用父盒子设置为display:inline-flex
 						border-radius: 5rpx;
 					}
 				}
