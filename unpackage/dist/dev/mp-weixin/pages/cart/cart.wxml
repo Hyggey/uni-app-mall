@@ -1,1 +1,1 @@
-<view></view>
+<view class="container"><view><view class="cart_list"><block wx:for="{{cartList}}" wx:for-item="item" wx:for-index="index" wx:key="index"><block><view class="cart_item"><view class="image_wrapper"><image src="{{item.image}}" mode></image></view><view class="item_middle"><text>{{item.title}}</text><text>{{item.attr_val}}</text><text>{{"￥"+item.price}}</text><uni-number-box vue-id="{{'1-'+index}}" min="{{0}}" max="{{9}}" bind:__l="__l"></uni-number-box></view><text class="del-btn yticon icon-fork"></text></view></block></block></view></view></view>

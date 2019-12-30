@@ -95,7 +95,7 @@
 				startY = e.touches[0].clientY;
 			},
 			coverTouchmove(e){
-				console.log(e.touches[0])
+				// console.log(e.touches[0])
 				// 计算滑动了多少距离
 				moveY = e.touches[0].clientY;
 				let distance = moveY - startY;
@@ -112,7 +112,7 @@
 				}
 			},
 			coverTouchend(e){
-				console.log(e)
+				// console.log(e)
 				// 滑到80px得时候让他回到起点
 				this.coverTransform = 'translateY(0px)';
 				// 回到起点得动画

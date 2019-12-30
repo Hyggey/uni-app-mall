@@ -1,9 +1,9 @@
 {
   "pages": [
+    "pages/cart/cart",
     "pages/user/user",
     "pages/category/category",
-    "pages/index/index",
-    "pages/cart/cart"
+    "pages/index/index"
   ],
   "subPackages": [],
   "window": {
@@ -44,5 +44,6 @@
       }
     ]
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap49.json"
 }
