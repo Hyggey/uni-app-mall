@@ -7,16 +7,20 @@
 					<view class="cart_item">
 						<view class="image_wrapper">
 							<image :src="item.image" mode=""></image>
-							<view class="yticon icon-xuanzhong2" 
+							<!-- <view class="yticon icon-xuanzhong2" 
 							:class="{checked:item.check}"
 							@click="check('item',index)"
 							>
-							</view>
+							</view> -->
+							<!-- <view class="" @click="check('item',index)"> -->
+								<checkBox :isChecked.sync="ischecked"></checkBox>
+							<!-- </view> -->
 						</view>
 						<view class="item_middle">
 							<text>{{item.title}}</text>
 							<text>{{item.attr_val}}</text>
 							<text>￥{{item.price}}</text>
+							{{ischecked}}---父组件
 							<uni-number-box 
 							:min="1" 
 							:max="item.stock"
@@ -33,11 +37,14 @@
 			<!-- 底部菜单栏目 -->
 			<view class="menu_section">
 				<view class="checkbox">
-					<image
+					<!-- <image
 						:src="allChecked?'/static/selected.png':'/static/select.png'" 
 						mode="aspectFit"
 						@click="check('all')"
-					></image>
+					></image> -->
+					<view class="" @click="check('all')">
+						<checkBox text="全选"></checkBox>
+					</view>
 					<view class="clear_btn" :class="{show:allChecked}" @click="clearCart">
 						清空
 					</view>
@@ -55,16 +62,17 @@
 </template>
 
 <script>
-	import uniNumberBox from "@/components/uni-number-box/uni-number-box.vue"
+	import checkBox from "@/components/checkbox.vue"
 	export default {
 		components:{
-			uniNumberBox
+			checkBox
 		},
 		data() {
 			return {
 				cartList:[],   // 购物车模拟得数据
 				allChecked: false,
-				totalPrice: 0   // 设置购物车总价格
+				totalPrice: 0,   // 设置购物车总价格
+				ischecked: false
 			}
 		},
 		onLoad() {
@@ -74,60 +82,20 @@
 			// 获取购物车数据
 			async getCartData(){
 				let list =await this.$api.json('cartList')
-				// console.log(list)
-				// map 可以改变原数组
-				let cartList = list.map(item =>{
-					item.check = true;
-					return item
-				})
-				this.cartList = cartList;
+				this.cartList = list;
 				console.log(this.cartList)
-				// 初始化计算总价
-				this.calcTotal()
 			},
 			// 点击选中与不选中
 			check(type,index){
-				console.log(type)
-				// this.allChecked = !this.allChecked
-				if(type == 'item'){
-					this.cartList[index].check = !this.cartList[index].check 
-				}else{
-					// this.allChecked = !this.allChecked
-					// 设置全选与全不选
-					const checked = !this.allChecked
-					this.cartList.forEach(item =>{
-						item.check = checked
-					})
-					this.allChecked = checked
-				}
-				this.calcTotal()
+				console.log(type,index)
 			},
 			// 计算总价
 			calcTotal(){
-				let total = 0;
-				let checked2 = true;
-				// 其中一个为false，全选按钮为false
-				this.cartList.forEach(item =>{
-					if(item.check == true){
-						let value = item.number>item.stock?item.stock:item.number
-						total += item.price * value
-						console.log(222)
-					}else if(checked2 == true){
-						checked2 = false
-						console.log(111)
-					}
-					this.allChecked = checked2;
-					console.log(checked2)
-					this.totalPrice = Number(total.toFixed(2))
-				})
+
 			},
 			// 单个商品加减计算
 			numberChange(number,index){
-				// console.log(number,index)
-				this.cartList[index].number = parseInt(number);
-				this.calcTotal();
-				// item.number = parseInt(value)
-				// this.calcTotal()
+
 			},
 			// 清空购物车
 			clearCart(){
@@ -143,25 +111,11 @@
 			},
 			// 删除单个商品
 			deleteCartItem(index){
-				console.log(index)
-				this.cartList.splice(index,1)
-				this.calcTotal()
+
 			},
 			// 结算按钮
 			createOrder(){
-				const goodsData = [];
-				this.cartList.forEach(item =>{
-					if(item.check == true){
-						goodsData.push({
-							attr_val: item.attr_val,
-							number: item.number
-						})
-					}
-				})
-				console.log(goodsData)
-				uni.navigateTo({
-					url:'../cart2/cart2'
-				})
+				
 			}
 		}
 	}
@@ -307,3 +261,4 @@
 		}
 	}
 </style>
+

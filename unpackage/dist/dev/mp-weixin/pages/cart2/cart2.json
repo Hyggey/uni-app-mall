@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "购物车2",
+  "usingComponents": {
+    "check-box": "/components/checkbox"
+  }
+}

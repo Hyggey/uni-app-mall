@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/cart2/cart2",
     "pages/cart/cart",
     "pages/user/user",
     "pages/category/category",
@@ -45,5 +46,5 @@
     ]
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap39.json"
+  "sitemapLocation": "sitemap70.json"
 }
