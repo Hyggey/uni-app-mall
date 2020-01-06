@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<label class="label" :for="id">
-			<text class="yticon icon-xuanzhong2" :class="[value?'red':'black']"></text>
+			<text class="yticon icon-xuanzhong2" :class="[isShow?'red':'black']"></text>
 			<!-- <input type="checkbox" :id="id" v-model="checkboxVal"/> -->
 			<checkbox-group @change="inputChange">
 				<checkbox :value="value" v-show="false" :checked="value1" :id="id"/>
@@ -33,6 +33,9 @@
 				isShow: false,
 				value: false
 			}
+		},
+		created() {
+			this.isShow = this.isChecked
 		},
 		methods:{
 			inputChange(e){

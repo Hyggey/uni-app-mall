@@ -12,9 +12,9 @@
 							@click="check('item',index)"
 							>
 							</view> -->
-							<!-- <view class="" @click="check('item',index)"> -->
+							<view class="" @click="check('item',index,ischecked)">
 								<checkBox :isChecked.sync="ischecked"></checkBox>
-							<!-- </view> -->
+							</view>
 						</view>
 						<view class="item_middle">
 							<text>{{item.title}}</text>
@@ -63,9 +63,11 @@
 
 <script>
 	import checkBox from "@/components/checkbox.vue"
+	import uniNumberBox from "@/components/uni-number-box/uni-number-box.vue"
 	export default {
 		components:{
-			checkBox
+			checkBox,
+			uniNumberBox
 		},
 		data() {
 			return {
@@ -82,16 +84,32 @@
 			// 获取购物车数据
 			async getCartData(){
 				let list =await this.$api.json('cartList')
-				this.cartList = list;
+				list.map(item =>{
+					item.check = this.ischecked;
+					return item
+				})
+				this.cartList = list
 				console.log(this.cartList)
 			},
 			// 点击选中与不选中
-			check(type,index){
-				console.log(type,index)
+			check(type,index,ischecked){
+				console.log(type,index,ischecked)
+				if(type == 'item'){
+					this.cartList[index].check = ischecked
+				}else{
+					
+				}
+				this.calcTotal()
 			},
 			// 计算总价
 			calcTotal(){
-
+				let total = 0;
+				this.cartList.forEach(item =>{
+					if(item.check == true){
+						total += item.price * item.number
+					}
+				})
+				this.totalPrice = total
 			},
 			// 单个商品加减计算
 			numberChange(number,index){

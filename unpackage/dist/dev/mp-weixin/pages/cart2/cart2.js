@@ -133,7 +133,8 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 24));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var checkBox = function checkBox() {return __webpack_require__.e(/*! import() | components/checkbox */ "components/checkbox").then(__webpack_require__.bind(null, /*! @/components/checkbox.vue */ 61));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 24));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var checkBox = function checkBox() {return __webpack_require__.e(/*! import() | components/checkbox */ "components/checkbox").then(__webpack_require__.bind(null, /*! @/components/checkbox.vue */ 61));};var uniNumberBox = function uniNumberBox() {return __webpack_require__.e(/*! import() | components/uni-number-box/uni-number-box */ "components/uni-number-box/uni-number-box").then(__webpack_require__.bind(null, /*! @/components/uni-number-box/uni-number-box.vue */ 68));};var _default =
+
 
 
 
@@ -200,7 +201,8 @@ __webpack_require__.r(__webpack_exports__);
 
 {
   components: {
-    checkBox: checkBox },
+    checkBox: checkBox,
+    uniNumberBox: uniNumberBox },
 
   data: function data() {
     return {
@@ -215,31 +217,47 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     // 获取购物车数据
-    getCartData: function () {var _getCartData = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var list;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+    getCartData: function () {var _getCartData = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _this = this;var list;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
                   this.$api.json('cartList'));case 2:list = _context.sent;
+                list.map(function (item) {
+                  item.check = _this.ischecked;
+                  return item;
+                });
                 this.cartList = list;
-                console.log(this.cartList);case 5:case "end":return _context.stop();}}}, _callee, this);}));function getCartData() {return _getCartData.apply(this, arguments);}return getCartData;}(),
+                console.log(this.cartList);case 6:case "end":return _context.stop();}}}, _callee, this);}));function getCartData() {return _getCartData.apply(this, arguments);}return getCartData;}(),
 
     // 点击选中与不选中
-    check: function check(type, index) {
-      console.log(type, index);
+    check: function check(type, index, ischecked) {
+      console.log(type, index, ischecked);
+      if (type == 'item') {
+        this.cartList[index].check = ischecked;
+      } else {
+
+      }
+      this.calcTotal();
     },
     // 计算总价
     calcTotal: function calcTotal() {
-
+      var total = 0;
+      this.cartList.forEach(function (item) {
+        if (item.check == true) {
+          total += item.price * item.number;
+        }
+      });
+      this.totalPrice = total;
     },
     // 单个商品加减计算
     numberChange: function numberChange(number, index) {
 
     },
     // 清空购物车
-    clearCart: function clearCart() {var _this = this;
+    clearCart: function clearCart() {var _this2 = this;
       uni.showModal({
         content: '清空购物车？',
         // 使用箭头函数，不然找不到this
         success: function success(e) {
           if (e.confirm) {
-            _this.cartList = [];
+            _this2.cartList = [];
           }
         } });
 
