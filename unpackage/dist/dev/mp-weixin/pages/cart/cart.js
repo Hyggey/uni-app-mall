@@ -122,7 +122,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 24));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var uniNumberBox = function uniNumberBox() {return __webpack_require__.e(/*! import() | components/uni-number-box/uni-number-box */ "components/uni-number-box/uni-number-box").then(__webpack_require__.bind(null, /*! @/components/uni-number-box/uni-number-box.vue */ 53));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 24));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var uniNumberBox = function uniNumberBox() {return __webpack_require__.e(/*! import() | components/uni-number-box/uni-number-box */ "components/uni-number-box/uni-number-box").then(__webpack_require__.bind(null, /*! @/components/uni-number-box/uni-number-box.vue */ 53));};var _default =
 
 
 
@@ -245,6 +245,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
         _this.totalPrice = Number(total.toFixed(2));
       });
     },
+    // 单个商品加减计算
     numberChange: function numberChange(number, index) {
       // console.log(number,index)
       this.cartList[index].number = parseInt(number);
@@ -252,10 +253,38 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       // item.number = parseInt(value)
       // this.calcTotal()
     },
+    // 清空购物车
+    clearCart: function clearCart() {var _this2 = this;
+      uni.showModal({
+        content: '清空购物车？',
+        // 使用箭头函数，不然找不到this
+        success: function success(e) {
+          if (e.confirm) {
+            _this2.cartList = [];
+          }
+        } });
+
+    },
+    // 删除单个商品
+    deleteCartItem: function deleteCartItem(index) {
+      console.log(index);
+      this.cartList.splice(index, 1);
+      this.calcTotal();
+    },
     // 结算按钮
     createOrder: function createOrder() {
+      var goodsData = [];
+      this.cartList.forEach(function (item) {
+        if (item.check == true) {
+          goodsData.push({
+            attr_val: item.attr_val,
+            number: item.number });
 
+        }
+      });
+      console.log(goodsData);
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

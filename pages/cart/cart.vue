@@ -26,7 +26,7 @@
 							>
 							</uni-number-box>
 						</view>
-						<text class="del-btn yticon icon-fork"></text>
+						<text class="del-btn yticon icon-fork" @click="deleteCartItem(index)"></text>
 					</view>
 				</block>
 			</view>
@@ -38,7 +38,7 @@
 						mode="aspectFit"
 						@click="check('all')"
 					></image>
-					<view class="clear_btn" :class="{show:allChecked}">
+					<view class="clear_btn" :class="{show:allChecked}" @click="clearCart">
 						清空
 					</view>
 				</view>
@@ -121,6 +121,7 @@
 					this.totalPrice = Number(total.toFixed(2))
 				})
 			},
+			// 单个商品加减计算
 			numberChange(number,index){
 				// console.log(number,index)
 				this.cartList[index].number = parseInt(number);
@@ -128,9 +129,36 @@
 				// item.number = parseInt(value)
 				// this.calcTotal()
 			},
+			// 清空购物车
+			clearCart(){
+				uni.showModal({
+					content: '清空购物车？',
+					// 使用箭头函数，不然找不到this
+					success:(e) =>{
+						if(e.confirm){
+							this.cartList = []
+						}
+					}
+				})
+			},
+			// 删除单个商品
+			deleteCartItem(index){
+				console.log(index)
+				this.cartList.splice(index,1)
+				this.calcTotal()
+			},
 			// 结算按钮
 			createOrder(){
-				
+				const goodsData = [];
+				this.cartList.forEach(item =>{
+					if(item.check == true){
+						goodsData.push({
+							attr_val: item.attr_val,
+							number: item.number
+						})
+					}
+				})
+				console.log(goodsData)
 			}
 		}
 	}
