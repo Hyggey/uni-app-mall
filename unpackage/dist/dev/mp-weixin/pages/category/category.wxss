@@ -73,6 +73,9 @@ page .right-aside, .content .right-aside {
     padding-left: 20rpx;
     box-sizing: border-box;
 }
+page .right-aside .box:last-child, .content .right-aside .box:last-child {
+      min-height: 100%;
+}
 page .right-aside .s-list .s-title, .content .right-aside .s-list .s-title {
       height: 70rpx;
       font-size: 28rpx;

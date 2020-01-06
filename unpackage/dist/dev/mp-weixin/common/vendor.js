@@ -9976,38 +9976,38 @@ var cateList = [{
   id: 5,
   name: '生鲜' },
 
-{
-  id: 6,
-  name: '珠宝' },
-
-{
-  id: 7,
-  name: '充值' },
-
-{
-  id: 8,
-  name: '生鲜' },
-
-{
-  id: 9,
-  name: '珠宝' },
-
-{
-  id: 10,
-  name: '充值' },
-
-{
-  id: 11,
-  name: '生鲜' },
-
-{
-  id: 12,
-  name: '珠宝' },
-
-{
-  id: 13,
-  name: '充值' },
-
+// {
+// 	id: 6,
+// 	name: '珠宝'
+// },
+// {
+// 	id: 7,
+// 	name: '充值'
+// },
+// {
+// 	id: 8,
+// 	name: '生鲜'
+// },
+// {
+// 	id: 9,
+// 	name: '珠宝'
+// },
+// {
+// 	id: 10,
+// 	name: '充值'
+// },
+// {
+// 	id: 11,
+// 	name: '生鲜'
+// },
+// {
+// 	id: 12,
+// 	name: '珠宝'
+// },
+// {
+// 	id: 13,
+// 	name: '充值'
+// },
 {
   id: 5,
   pid: 1,
@@ -10223,6 +10223,57 @@ var cateList = [{
 {
   id: 46,
   pid: 39,
+  name: '围兜',
+  picture: '/static/temp/cate24.jpg' },
+
+{
+  id: 47,
+  pid: 5,
+  name: '海鲜' },
+
+{
+  id: 48,
+  pid: 47,
+  name: '围兜',
+  picture: '/static/temp/cate24.jpg' },
+
+{
+  id: 48,
+  pid: 47,
+  name: '围兜',
+  picture: '/static/temp/cate24.jpg' },
+
+{
+  id: 48,
+  pid: 47,
+  name: '围兜',
+  picture: '/static/temp/cate24.jpg' },
+
+{
+  id: 48,
+  pid: 47,
+  name: '围兜',
+  picture: '/static/temp/cate24.jpg' },
+
+{
+  id: 49,
+  pid: 5,
+  name: '海鲜水果' },
+
+{
+  id: 50,
+  pid: 49,
+  name: '围兜',
+  picture: '/static/temp/cate24.jpg' },
+
+{
+  id: 51,
+  pid: 5,
+  name: '鲨鱼' },
+
+{
+  id: 52,
+  pid: 51,
   name: '围兜',
   picture: '/static/temp/cate24.jpg' }];var _default =
 

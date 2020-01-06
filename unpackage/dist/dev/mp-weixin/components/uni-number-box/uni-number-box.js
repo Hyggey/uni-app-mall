@@ -156,6 +156,7 @@ var _default =
       }
     } },
 
+  // 解决上来就调用一次change方法
   created: function created() {
     this.inputValue = +this.value;
   },

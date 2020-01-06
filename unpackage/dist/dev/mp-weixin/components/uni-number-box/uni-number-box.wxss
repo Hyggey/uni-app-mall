@@ -32,7 +32,6 @@
   -webkit-box-direction: normal;
   -webkit-flex-direction: row;
           flex-direction: row;
-  height: 35px;
   line-height: 35px;
   width: 120px;
 }
@@ -99,10 +98,10 @@
   border-left-width: 0;
 }
 .uni-numbox--text.data-v-7574ee24 {
-  font-size: 40rpx;
+  font-size: 45rpx !important;
   color: #333;
 }
 .uni-numbox--disabled.data-v-7574ee24 {
-  color: #c0c0c0;
+  color: #d6d6d6 !important;
 }
 

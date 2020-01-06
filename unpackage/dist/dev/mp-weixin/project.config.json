@@ -4,11 +4,12 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": false
+		"urlCheck": false,
+		"es6": true
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.9.2",
-	"appid": "touristappid",
+	"appid": "wx7b3d9028f105a482",
 	"projectname": "电商小程序",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},

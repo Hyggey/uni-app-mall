@@ -6,12 +6,14 @@
 			</view>
 		</scroll-view>
 		<scroll-view :scroll-into-view="clickId" @scroll="asideScroll" :scroll-top="tabScrollTop" scroll-with-animation scroll-y="true" class="right-aside">
-			<view class="s-list" v-for="(item,index) in slist" :key="index" :id="'main-'+item.id">
-				<text class="s-title">{{item.name}}</text>
-				<view class="t-list">
-					<view class="t-item" v-for="(it,idx) in tlist" v-if="it.pid === item.id" :key="idx">
-						<image :src="it.picture" mode="aspectFill"></image>
-						<text>{{it.name}}</text>
+			<view class="box" v-for="(v,k) in flist" :key="k">
+				<view class="s-list" v-for="(item,index) in slist" v-if="item.pid == v.id" :key="index" :id="'main-'+item.id">
+					<text class="s-title">{{item.name}}</text>
+					<view class="t-list">
+						<view class="t-item" v-for="(it,idx) in tlist" v-if="it.pid === item.id" :key="idx">
+							<image :src="it.picture" mode="aspectFill"></image>
+							<text>{{it.name}}</text>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -29,7 +31,8 @@
 				tlist:[],    // 三级分类，带图片
 				clickId:'',   // scroll-into-view 点击一级分类，右边跳转   第二种方法用的
 				tabScrollTop:'',  // 二级分类跳转距离顶部的距离
-				sizeCalcState: false
+				sizeCalcState: false,
+				elist:[]
 			};
 		},
 		onLoad() {
@@ -62,16 +65,16 @@
 					this.calcSize()
 				}
 				//第一种方法
-				let indexOne = this.slist.findIndex(sitem=>sitem.pid === item.id)
-				this.tabScrollTop = this.slist[indexOne].top
+				// let indexOne = this.slist.findIndex(sitem=>sitem.pid === item.id)
+				// this.tabScrollTop = this.slist[indexOne].top
 				
 				//第二种做法，用的是scroll-into-view做的，不好，需要循环遍历数据判断
-				// let a = []
-				// this.slist.forEach(sitem =>{
-				// 	if(sitem.pid === item.id)
-				// 	a.push(sitem)
-				// })
-				// this.clickId = 'main-'+a[0].id
+				let a = []
+				this.slist.forEach(sitem =>{
+					if(sitem.pid === item.id)
+					a.push(sitem)
+				})
+				this.clickId = 'main-'+a[0].id
 			},
 			asideScroll(e){
 				// 让calSize方法只执行一次,使之获取高度及拥有top属性
@@ -147,6 +150,9 @@
 		.right-aside{
 			padding-left: 20rpx;
 			box-sizing: border-box;
+			.box:last-child{
+				min-height: 100%;
+			}
 			.s-list{
 				.s-title{
 					height: 70rpx;

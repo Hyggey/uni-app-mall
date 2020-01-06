@@ -143,6 +143,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 var _default =
 {
   data: function data() {
@@ -153,7 +155,8 @@ var _default =
       tlist: [], // 三级分类，带图片
       clickId: '', // scroll-into-view 点击一级分类，右边跳转   第二种方法用的
       tabScrollTop: '', // 二级分类跳转距离顶部的距离
-      sizeCalcState: false };
+      sizeCalcState: false,
+      elist: [] };
 
   },
   onLoad: function onLoad() {
@@ -186,16 +189,16 @@ var _default =
         this.calcSize();
       }
       //第一种方法
-      var indexOne = this.slist.findIndex(function (sitem) {return sitem.pid === item.id;});
-      this.tabScrollTop = this.slist[indexOne].top;
+      // let indexOne = this.slist.findIndex(sitem=>sitem.pid === item.id)
+      // this.tabScrollTop = this.slist[indexOne].top
 
       //第二种做法，用的是scroll-into-view做的，不好，需要循环遍历数据判断
-      // let a = []
-      // this.slist.forEach(sitem =>{
-      // 	if(sitem.pid === item.id)
-      // 	a.push(sitem)
-      // })
-      // this.clickId = 'main-'+a[0].id
+      var a = [];
+      this.slist.forEach(function (sitem) {
+        if (sitem.pid === item.id)
+        a.push(sitem);
+      });
+      this.clickId = 'main-' + a[0].id;
     },
     asideScroll: function asideScroll(e) {
       // 让calSize方法只执行一次,使之获取高度及拥有top属性

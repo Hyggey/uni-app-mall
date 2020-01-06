@@ -49,6 +49,7 @@
 				}
 			}
 		},
+		// 解决上来就调用一次change方法
 		created() {
 			this.inputValue = +this.value;
 		},
@@ -118,7 +119,7 @@
 		display: flex;
 		/* #endif */
 		flex-direction: row;
-		height: $box-height;
+		// height: $box-height;
 		line-height: $box-height;
 		width: 120px;
 	}
@@ -177,11 +178,12 @@
 	}
 
 	.uni-numbox--text {
-		font-size: 40rpx;
+		font-size: 45rpx!important;
 		color: $uni-text-color;
 	}
 
 	.uni-numbox--disabled {
-		color: $uni-text-color-disable;
+		// color: $uni-text-color-disable;
+		color: #d6d6d6!important;
 	}
 </style>

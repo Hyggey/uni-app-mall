@@ -147,19 +147,55 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     uniNumberBox: uniNumberBox },
 
   data: function data() {
     return {
-      cartList: [] // 购物车模拟得数据
+      cartList: [], // 购物车模拟得数据
+      allChecked: false,
+      totalPrice: 0 // 设置购物车总价格
     };
   },
   onLoad: function onLoad() {
     this.getCartData();
   },
   methods: {
+    // 获取购物车数据
     getCartData: function () {var _getCartData = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var list, cartList;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
                   this.$api.json('cartList'));case 2:list = _context.sent;
                 // console.log(list)
@@ -169,7 +205,57 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
                   return item;
                 });
                 this.cartList = cartList;
-                console.log(this.cartList);case 6:case "end":return _context.stop();}}}, _callee, this);}));function getCartData() {return _getCartData.apply(this, arguments);}return getCartData;}() } };exports.default = _default;
+                console.log(this.cartList);
+                // 初始化计算总价
+                this.calcTotal();case 7:case "end":return _context.stop();}}}, _callee, this);}));function getCartData() {return _getCartData.apply(this, arguments);}return getCartData;}(),
+
+    // 点击选中与不选中
+    check: function check(type, index) {
+      console.log(type);
+      // this.allChecked = !this.allChecked
+      if (type == 'item') {
+        this.cartList[index].check = !this.cartList[index].check;
+      } else {
+        // this.allChecked = !this.allChecked
+        // 设置全选与全不选
+        var checked = !this.allChecked;
+        this.cartList.forEach(function (item) {
+          item.check = checked;
+        });
+        this.allChecked = checked;
+      }
+      this.calcTotal();
+    },
+    // 计算总价
+    calcTotal: function calcTotal() {var _this = this;
+      var total = 0;
+      var checked2 = true;
+      // 其中一个为false，全选按钮为false
+      this.cartList.forEach(function (item) {
+        if (item.check == true) {
+          var value = item.number > item.stock ? item.stock : item.number;
+          total += item.price * value;
+          console.log(222);
+        } else if (checked2 == true) {
+          checked2 = false;
+          console.log(111);
+        }
+        _this.allChecked = checked2;
+        console.log(checked2);
+        _this.totalPrice = Number(total.toFixed(2));
+      });
+    },
+    numberChange: function numberChange(number, index) {
+      // console.log(number,index)
+      this.cartList[index].number = parseInt(number);
+      this.calcTotal();
+      // item.number = parseInt(value)
+      // this.calcTotal()
+    },
+    // 结算按钮
+    createOrder: function createOrder() {
+
+    } } };exports.default = _default;
 
 /***/ }),
 
