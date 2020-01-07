@@ -12,15 +12,15 @@
 							@click="check('item',index)"
 							>
 							</view> -->
-							<view class="" @click="check('item',index,ischecked)">
-								<checkBox :isChecked.sync="ischecked"></checkBox>
+							<view class="" @click="check('item',index,item.check)">
+								<checkBox :isChecked.sync="item.check"></checkBox>
 							</view>
 						</view>
 						<view class="item_middle">
 							<text>{{item.title}}</text>
 							<text>{{item.attr_val}}</text>
 							<text>￥{{item.price}}</text>
-							{{ischecked}}---父组件
+							{{item.check}}---父组件
 							<uni-number-box 
 							:min="1" 
 							:max="item.stock"
@@ -35,15 +35,15 @@
 				</block>
 			</view>
 			<!-- 底部菜单栏目 -->
-			<view class="menu_section">
+			<view class="menu_section" v-if="cartList">
 				<view class="checkbox">
 					<!-- <image
 						:src="allChecked?'/static/selected.png':'/static/select.png'" 
 						mode="aspectFit"
 						@click="check('all')"
 					></image> -->
-					<view class="" @click="check('all')">
-						<checkBox text="全选"></checkBox>
+					<view class="" @click="check('all',100,allChecked)">
+						<checkBox :isChecked.sync="allChecked" text="全选"></checkBox>
 					</view>
 					<view class="clear_btn" :class="{show:allChecked}" @click="clearCart">
 						清空
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-	import checkBox from "@/components/checkbox.vue"
+	import checkBox from "@/components/checkboxRight.vue"
 	import uniNumberBox from "@/components/uni-number-box/uni-number-box.vue"
 	export default {
 		components:{
@@ -74,31 +74,47 @@
 				cartList:[],   // 购物车模拟得数据
 				allChecked: false,
 				totalPrice: 0,   // 设置购物车总价格
-				ischecked: false
+				ischecked: false,
 			}
 		},
 		onLoad() {
 			this.getCartData()
 		},
+		created() {
+			
+		},
 		methods: {
 			// 获取购物车数据
 			async getCartData(){
 				let list =await this.$api.json('cartList')
+				// 一开始让他全部不要选中商品
 				list.map(item =>{
-					item.check = this.ischecked;
+					item.check = false;
 					return item
 				})
 				this.cartList = list
 				console.log(this.cartList)
+				this.setAllSelected()
 			},
 			// 点击选中与不选中
 			check(type,index,ischecked){
 				console.log(type,index,ischecked)
-				if(type == 'item'){
-					this.cartList[index].check = ischecked
+				if(type == 'item' && ischecked){
+					this.cartList[index].check = true
+				}else if(type == 'item' && !ischecked){
+					this.cartList[index].check = false
 				}else{
-					
+					if(type == 'all' && ischecked){
+						this.cartList.forEach(item =>{
+							item.check = true
+						})
+					}else{
+						this.cartList.forEach(item =>{
+							item.check = false
+						})
+					}
 				}
+				this.setAllSelected()
 				this.calcTotal()
 			},
 			// 计算总价
@@ -109,11 +125,13 @@
 						total += item.price * item.number
 					}
 				})
-				this.totalPrice = total
+				this.totalPrice = Number(total.toFixed(2))
 			},
 			// 单个商品加减计算
 			numberChange(number,index){
-
+				// console.log(number,index)
+				this.cartList[index].number = number;
+				this.calcTotal()
 			},
 			// 清空购物车
 			clearCart(){
@@ -129,11 +147,43 @@
 			},
 			// 删除单个商品
 			deleteCartItem(index){
-
+				this.cartList.splice(index,1)
 			},
 			// 结算按钮
 			createOrder(){
+				const goodsData = [];
+				this.cartList.forEach(item =>{
+					if(item.check == true){
+						goodsData.push({
+							attr_val: item.attr_val,
+							number: item.number
+						})
+					}
+				})
+				if(goodsData.length<=0){
+					uni.showModal({
+						content:'请选择商品'
+					})
+				}else{
+					console.log(goodsData)
+					uni.navigateTo({
+						url: '../cart/cart'
+					})
+				}
 				
+			},
+			// 判断所有选中，则全选
+			setAllSelected(){
+				console.log(this.cartList)
+				if(this.cartList.length>0){
+					let allCheckFlag = this.cartList.every(item => item.check == true)
+					console.log(allCheckFlag)
+					if(allCheckFlag){
+						this.allChecked = true
+					}else{
+						this.allChecked = false
+					}
+				}	
 			}
 		}
 	}

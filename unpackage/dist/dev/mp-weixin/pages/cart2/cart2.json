@@ -1,7 +1,7 @@
 {
   "navigationBarTitleText": "购物车2",
   "usingComponents": {
-    "check-box": "/components/checkbox",
+    "check-box": "/components/checkboxRight",
     "uni-number-box": "/components/uni-number-box/uni-number-box"
   }
 }

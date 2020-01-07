@@ -1,10 +1,10 @@
 <template>
 	<view>
 		<label class="label" :for="id">
-			<text class="yticon icon-xuanzhong2" :class="[isShow?'red':'black']"></text>
+			<text class="yticon icon-xuanzhong2" :class="[checkedVal?'red':'black']"></text>
 			<!-- <input type="checkbox" :id="id" v-model="checkboxVal"/> -->
 			<checkbox-group @change="inputChange">
-				<checkbox :value="value" :checked="value1" :id="id"/>
+				<checkbox :value="value" v-show="false" :checked="checkedVal" :id="id"/>
 			</checkbox-group>
 		</label>
 		<label class="text" :for="id">
@@ -30,41 +30,34 @@
 		data() {
 			return {
 				id: 123,
-				isShow: false,
-				value: false
+				value: false  // 可要可不要，不要就直接写 value='false'
 			}
-		},
-		created() {
-			// this.isShow = this.isChecked
-			// console.log(this.isShow)
 		},
 		methods:{
 			inputChange(e){
 				// console.log(e.detail.value[0])
+				let flag;
 				if(e.detail.value[0]== "false"){
-					this.value = true
+					flag = true
 				}else{
-					this.value = false
+					flag = false
 				}
-				console.log(this.value)
-				// this.value = false
+				this.checkedVal = flag
+				console.log(flag)
+				console.log(this.checkedVal)
 			}
 		},
-		watch:{
-			value(val){
-				console.log(this.value)
-				this.isShow = this.value;
-				// this.value = this.isChecked
-				this.$emit('update:isChecked',this.value)
+		computed:{
+			checkedVal:{
+				set(newVal){
+					console.log(111,newVal)
+					this.$emit('update:isChecked',newVal)
 				},
-			// get(){
-			// 	this.isShow = this.isChecked
-			// 	return this.isChecked
-			// }
-			isChecked(val){
-				this.isShow = val
-				// this.value = val
-			}
+				get(){
+					console.log(this.isChecked)
+					return this.isChecked
+				}
+			},
 		}
 	}
 </script>
