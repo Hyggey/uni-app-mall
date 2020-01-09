@@ -215,8 +215,16 @@ var _default = { data: function data() {return { currentIndex: 0, // 头部选�
           //添加不同状态下订单的表现形式
           item = Object.assign(item, _this.orderStateExp(item.state));
           console.log(item);
+          // 一定要return，不然最后的console.log(orderList)打印不到内容
+          // 如果state为0得话，就返回所有订单
+          if (state === 0) {
+            return item;
+          }
+          // 否则就返回后台中数据中订单得state与用户选则得tab栏中的state相同得数据
+          // 其实下面的item.state === state 就是一个条件筛选，所以要用filter方法
+          return item.state === state;
         });
-
+        console.log(orderList);
       }, 600);
     },
     orderStateExp: function orderStateExp(state) {
