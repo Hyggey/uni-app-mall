@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/order/order",
     "pages/index/index",
     "pages/cart2/cart2",
     "pages/cart/cart",
@@ -45,6 +46,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap13.json"
+  "usingComponents": {}
 }

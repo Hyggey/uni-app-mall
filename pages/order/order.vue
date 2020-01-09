@@ -1,0 +1,142 @@
+<template>
+	<view class="content">
+		<!-- 头部选项卡 -->
+		<view class="navbar">
+			<view class="tab_item" :class="{active:currentIndex == index}" 
+			v-for="(item,index) in  navList" :key="index"
+			@click="tabClick(index)"
+			>
+				{{item.text}}
+			</view>
+		</view>
+		
+		<swiper :duration="1000">
+			<swiper-item>
+				<view class="swiper-item"></view>
+			</swiper-item>
+		</swiper>
+	</view>
+</template>
+
+<script>
+	import Json from '@/Json';
+	export default {
+		data() {
+			return {
+				currentIndex: 0,    // 头部选项卡初始选中位置
+				navList: [{
+						state: 0,
+						text: '全部',
+						loadingType: 'more',
+						orderList: []
+					},
+					{
+						state: 1,
+						text: '待付款',
+						loadingType: 'more',
+						orderList: []
+					},
+					{
+						state: 2,
+						text: '待收货',
+						loadingType: 'more',
+						orderList: []
+					},
+					{
+						state: 3,
+						text: '待评价',
+						loadingType: 'more',
+						orderList: []
+					},
+					{
+						state: 4,
+						text: '售后',
+						loadingType: 'more',
+						orderList: []
+					}
+				]
+			};
+		},
+		onLoad() {
+			this.loadData()
+		},
+		methods:{
+			// 头部点击换颜色方法
+			tabClick(index){
+				this.currentIndex = index;
+			},
+			// 获取订单列表
+			loadData(source){
+				let index = this.currentIndex;
+				let navItem = this.navList[index];
+				let state = navItem.state
+				console.log(index,navItem,state)
+				// 与下面一样的请求到数据一样的
+				// this.$api.json('orderList').then(res =>{
+				// 	console.log(res)
+				// })
+				setTimeout(() =>{
+					let orderList = Json.orderList.filter(item =>{
+						//添加不同状态下订单的表现形式
+						item = Object.assign(item, this.orderStateExp(item.state));
+						console.log(item)
+					})
+					
+				},600)
+			},
+			orderStateExp(state){
+				let stateTip='',
+				stateTipColor = '#fa436a';
+				switch(state){
+					case 1:
+					stateTip = '待付款'; break;
+					case 2:
+					stateTip = '待发货'; break;
+					case 9:
+					stateTip = '订单已关闭';
+					stateTipColor = '#909399';
+					break;
+				}
+				return {stateTip, stateTipColor};
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	page{
+		height: 100%;
+	}
+	.content{
+		background: #f8f8f8;
+		height: 100%;
+		// 头部选项卡
+		.navbar{
+			height: 40px;
+			background: #FFFFFF;
+			display: flex;
+			padding: 0 5px;
+			box-sizing: border-box;
+			box-shadow: 0 1px 5px rgba(0, 0, 0, 0.06);
+			.tab_item{
+				flex: 1;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				position: relative;
+				color: #303133;
+				font-size: 15px;
+			}
+			.active{
+				color: #fa436a;
+				&:after{
+					content: '';
+					position: absolute;
+					width: 44px;
+					border-bottom: 2px solid #fa436a;
+					bottom: 0;
+				}
+			}
+		}
+	}
+</style>

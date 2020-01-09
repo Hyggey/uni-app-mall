@@ -166,11 +166,10 @@
 					})
 				}else{
 					console.log(goodsData)
-					uni.navigateTo({
+					uni.switchTab({
 						url: '../cart/cart'
 					})
 				}
-				
 			},
 			// 判断所有选中，则全选
 			setAllSelected(){
