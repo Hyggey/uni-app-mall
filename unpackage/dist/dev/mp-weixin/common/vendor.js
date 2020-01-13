@@ -8508,7 +8508,7 @@ module.exports = {"_from":"@dcloudio/uni-stat@alpha","_id":"@dcloudio/uni-stat@2
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "navigationBarTitleText": "首页", "usingComponents": { "goods-header": "/components/goodsHeader" }, "usingAutoImportComponents": {} }, "pages/cart2/cart2": { "navigationBarTitleText": "购物车2", "usingComponents": { "check-box": "/components/checkboxRight", "uni-number-box": "/components/uni-number-box/uni-number-box" }, "usingAutoImportComponents": {} }, "pages/cart/cart": { "navigationBarTitleText": "购物车", "usingComponents": { "uni-number-box": "/components/uni-number-box/uni-number-box" }, "usingAutoImportComponents": {} }, "pages/user/user": { "navigationBarTitleText": "我的", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/category/category": { "navigationBarTitleText": "分类", "navigationBarBackgroundColor": "#FFFFFF", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/order/order": { "navigationBarTitleText": "我的订单", "usingComponents": {}, "usingAutoImportComponents": {} } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "uni-app", "navigationBarBackgroundColor": "#F8F8F8", "backgroundColor": "#F8F8F8" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/order/order": { "navigationBarTitleText": "我的订单" }, "pages/index/index": { "navigationBarTitleText": "首页" }, "pages/cart2/cart2": { "navigationBarTitleText": "购物车2" }, "pages/cart/cart": { "navigationBarTitleText": "购物车" }, "pages/user/user": { "navigationBarTitleText": "我的" }, "pages/category/category": { "navigationBarTitleText": "分类", "navigationBarBackgroundColor": "#FFFFFF" } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "uni-app", "navigationBarBackgroundColor": "#F8F8F8", "backgroundColor": "#F8F8F8" } };exports.default = _default;
 
 /***/ }),
 /* 8 */
@@ -10385,18 +10385,26 @@ var cateList = [{
 /* 21 */,
 /* 22 */,
 /* 23 */,
-/* 24 */
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */
 /*!**********************************************************!*\
   !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
   \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 25);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 33);
 
 
 /***/ }),
-/* 25 */
+/* 33 */
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -10427,7 +10435,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 26);
+module.exports = __webpack_require__(/*! ./runtime */ 34);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -10443,7 +10451,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 26 */
+/* 34 */
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/

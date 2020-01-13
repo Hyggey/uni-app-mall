@@ -104,11 +104,11 @@
 /******/
 /******/
 /******/ 		// mini-css-extract-plugin CSS loading
-/******/ 		var cssChunks = {"components/goodsHeader":1,"components/checkboxRight":1,"components/uni-number-box/uni-number-box":1};
+/******/ 		var cssChunks = {"components/empty":1,"components/goodsHeader":1,"components/checkboxRight":1,"components/uni-number-box/uni-number-box":1};
 /******/ 		if(installedCssChunks[chunkId]) promises.push(installedCssChunks[chunkId]);
 /******/ 		else if(installedCssChunks[chunkId] !== 0 && cssChunks[chunkId]) {
 /******/ 			promises.push(installedCssChunks[chunkId] = new Promise(function(resolve, reject) {
-/******/ 				var href = "" + ({"components/goodsHeader":"components/goodsHeader","components/checkboxRight":"components/checkboxRight","components/uni-number-box/uni-number-box":"components/uni-number-box/uni-number-box"}[chunkId]||chunkId) + ".wxss";
+/******/ 				var href = "" + ({"components/empty":"components/empty","components/goodsHeader":"components/goodsHeader","components/checkboxRight":"components/checkboxRight","components/uni-number-box/uni-number-box":"components/uni-number-box/uni-number-box"}[chunkId]||chunkId) + ".wxss";
 /******/ 				var fullhref = __webpack_require__.p + href;
 /******/ 				var existingLinkTags = document.getElementsByTagName("link");
 /******/ 				for(var i = 0; i < existingLinkTags.length; i++) {

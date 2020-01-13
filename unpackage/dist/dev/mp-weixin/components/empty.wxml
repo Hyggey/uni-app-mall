@@ -1,0 +1,1 @@
+<view class="emptyBox"><image src="{{src}}" mode="aspectFill"></image></view>

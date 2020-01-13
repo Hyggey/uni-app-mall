@@ -10,9 +10,18 @@
 			</view>
 		</view>
 		
-		<swiper :duration="1000">
-			<swiper-item>
-				<view class="swiper-item"></view>
+		<swiper :current="currentIndex" class="swiper_box" @change="changeTab" duration="800">
+			<swiper-item class="swiper_content" v-for="(tabItem,tabIndex) in navList" :key="tabIndex">
+				<scroll-view scroll-y="true" >
+					<empty v-if="tabItem.loaded == true && tabItem.orderList.length == 0"></empty>
+					<!-- 订单列表 -->
+					<view class="order-item" v-for="(item,index) in tabItem.orderList" :key="index">
+						<view class="itemTop">
+							<text>{{item.time}}</text>
+							<text :style="{color:item.stateTipColor}">{{item.stateTip}}</text>
+						</view>
+					</view>
+				</scroll-view>
 			</swiper-item>
 		</swiper>
 	</view>
@@ -20,7 +29,11 @@
 
 <script>
 	import Json from '@/Json';
+	import empty from '@/components/empty.vue'
 	export default {
+		components:{
+			empty
+		},
 		data() {
 			return {
 				currentIndex: 0,    // 头部选项卡初始选中位置
@@ -75,6 +88,11 @@
 				// this.$api.json('orderList').then(res =>{
 				// 	console.log(res)
 				// })
+				if(source === 'tabChange' && navItem.loaded === true){
+					//tab切换只有第一次需要加载数据,数据处理一次，下面的就不执行了，return掉了
+					return;
+				}
+				
 				setTimeout(() =>{
 					let orderList = Json.orderList.filter(item =>{
 						//添加不同状态下订单的表现形式
@@ -89,8 +107,22 @@
 						// 其实下面的item.state === state 就是一个条件筛选，所以要用filter方法
 						return item.state === state
 					})
-					console.log(orderList)
+					// console.log(orderList)
+					orderList.forEach((item) =>{
+						navItem.orderList.push(item)
+					})
+					//loaded新字段用于表示数据加载完毕，如果为空可以显示空白页
+					this.$set(navItem,'loaded',true)
+					console.log(this.navList)
+					
+					//判断是否还有数据， 有改为 more， 没有改为noMore
+					navItem.loadingType = 'more';
 				},600)
+			},
+			changeTab(e){
+				console.log(e)
+				this.currentIndex = e.detail.current
+				this.loadData('tabChange')
 			},
 			orderStateExp(state){
 				let stateTip='',
@@ -143,6 +175,25 @@
 					width: 44px;
 					border-bottom: 2px solid #fa436a;
 					bottom: 0;
+				}
+			}
+		}
+		// 订单列表
+		.swiper_box{
+			height: calc(100% - 40px);
+			.swiper_content{
+				.order-item{
+					padding: 10rpx;
+					box-sizing: border-box;
+					.itemTop{
+						height: 80rpx;
+						display: flex;
+						font-size: 28rpx;
+						align-items: center;
+						text:first-child{
+							flex: 1;
+						}
+					}
 				}
 			}
 		}
