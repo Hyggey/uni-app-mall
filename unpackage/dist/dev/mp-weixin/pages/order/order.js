@@ -163,6 +163,13 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
+
+
+
+
+
+
 var _Json = _interopRequireDefault(__webpack_require__(/*! @/Json */ 17));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -192,15 +199,15 @@ var _Json = _interopRequireDefault(__webpack_require__(/*! @/Json */ 17));functi
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 var empty = function empty() {return __webpack_require__.e(/*! import() | components/empty */ "components/empty").then(__webpack_require__.bind(null, /*! @/components/empty.vue */ 69));};var _default = { components: { empty: empty }, data: function data() {return { currentIndex: 0, // 头部选项卡初始选中位置
-      navList: [{ state: 0, text: '全部', loadingType: 'more', orderList: [] }, { state: 1, text: '待付款', loadingType: 'more', orderList: [] }, { state: 2, text: '待收货', loadingType: 'more', orderList: [] }, { state: 3, text: '待评价', loadingType: 'more',
-        orderList: [] },
-
-      {
-        state: 4,
-        text: '售后',
-        loadingType: 'more',
-        orderList: [] }] };
+      navList: [{ state: 0, text: '全部', loadingType: 'more', orderList: [] }, { state: 1, text: '待付款', loadingType: 'more', orderList: [] }, { state: 2, text: '待收货', loadingType: 'more', orderList: [] }, { state: 3, text: '待评价', loadingType: 'more', orderList: [] }, { state: 4, text: '售后', loadingType: 'more', orderList: [] }] };
 
 
 

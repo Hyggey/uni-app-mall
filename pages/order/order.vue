@@ -12,14 +12,21 @@
 		
 		<swiper :current="currentIndex" class="swiper_box" @change="changeTab" duration="800">
 			<swiper-item class="swiper_content" v-for="(tabItem,tabIndex) in navList" :key="tabIndex">
-				<scroll-view scroll-y="true" >
+				<scroll-view scroll-y="true" style="height: 100%;">
 					<empty v-if="tabItem.loaded == true && tabItem.orderList.length == 0"></empty>
 					<!-- 订单列表 -->
 					<view class="order-item" v-for="(item,index) in tabItem.orderList" :key="index">
 						<view class="itemTop">
 							<text>{{item.time}}</text>
 							<text :style="{color:item.stateTipColor}">{{item.stateTip}}</text>
+							<text v-if="item.state == 9" class="yticon icon-iconfontshanchu1 del_btn"></text>
 						</view>
+						<!-- 条件item.goodsList.length>1的作用，挑选出只用图片的数据，专门对这些进行渲染 -->
+						<scroll-view v-if="item.goodsList.length>1" scroll-x="true" class="goods_box">
+							<view class="goods_item" v-for="(goodsItem,goodsIndex) in item.goodsList" :key="goodsIndex">
+								<image :src="goodsItem.image" mode="aspectFill"></image>
+							</view>
+						</scroll-view>
 					</view>
 				</scroll-view>
 			</swiper-item>
@@ -185,13 +192,46 @@
 				.order-item{
 					padding: 10rpx;
 					box-sizing: border-box;
+					background: #fff;
 					.itemTop{
 						height: 80rpx;
 						display: flex;
 						font-size: 28rpx;
 						align-items: center;
+						border-bottom: 1px solid #DCDFE6;
 						text:first-child{
 							flex: 1;
+						}
+						.del_btn{
+							color: #909399;
+							padding: 5rpx 0rpx 0 30rpx;
+							position: relative;
+							box-sizing: border-box;
+							&:after{
+								content: '';
+								position: absolute;
+								height: 30rpx;
+								width: 0;
+								border: 1rpx solid #DCDFE6;
+								left: 16rpx;
+								top: 50%;
+								transform: translateY(-50%);
+							}
+						}
+					}
+					.goods_box{
+						white-space: nowrap;
+						padding: 20rpx 0;
+						height: 160rpx;
+						.goods_item{
+							width: 120rpx;
+							height: 120rpx;
+							display: inline-block;
+							margin-right: 20rpx;
+							image{
+								width: 100%;
+								height: 100%;
+							}
 						}
 					}
 				}
