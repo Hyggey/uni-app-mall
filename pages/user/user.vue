@@ -49,19 +49,19 @@
 			</view>
 			<!-- 订单 -->
 			<view class="order-section">
-				<view class="order-item">
+				<view class="order-item" @click="navTo('/pages/order/order?state=0')">
 					<text class="yticon icon-shouye"></text>
 					<text>全部订单</text>
 				</view>
-				<view class="order-item">
+				<view class="order-item" @click="navTo('/pages/order/order?state=1')">
 					<text class="yticon icon-daifukuan"></text>
 					<text>待付款</text>
 				</view>
-				<view class="order-item">
+				<view class="order-item" @click="navTo('/pages/order/order?state=2')">
 					<text class="yticon icon-yishouhuo"></text>
 					<text>待收货</text>
 				</view>
-				<view class="order-item">
+				<view class="order-item" @click="navTo('/pages/order/order?state=4')">
 					<text class="yticon icon-shouhoutuikuan"></text>
 					<text>退款/售后</text>
 				</view>
@@ -117,6 +117,16 @@
 				this.coverTransform = 'translateY(0px)';
 				// 回到起点得动画
 				this.coverTransition = 'transform 0.3s cubic-bezier(.21,1.93,.53,.64)';
+			},
+			navTo(url){
+				console.log(url)
+				// 如果没登录
+				// if(!this.hasLogin){
+				// 	url = '/pages/public/login';
+				// }
+				uni.navigateTo({
+					url
+				})
 			}
 		}
 	}

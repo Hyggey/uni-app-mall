@@ -257,7 +257,7 @@ var _Json = _interopRequireDefault(__webpack_require__(/*! @/Json */ 17));functi
 //
 //
 var empty = function empty() {return __webpack_require__.e(/*! import() | components/empty */ "components/empty").then(__webpack_require__.bind(null, /*! @/components/empty.vue */ 69));};var uniLoadMore = function uniLoadMore() {return __webpack_require__.e(/*! import() | components/uni-load-more/uni-load-more */ "components/uni-load-more/uni-load-more").then(__webpack_require__.bind(null, /*! @/components/uni-load-more/uni-load-more.vue */ 108));};var _default = { components: { empty: empty, uniLoadMore: uniLoadMore }, data: function data() {return { currentIndex: 0, // 头部选项卡初始选中位置
-      navList: [{ state: 0, text: '全部', loadingType: 'more', orderList: [] }, { state: 1, text: '待付款', loadingType: 'more', orderList: [] }, { state: 2, text: '待收货', loadingType: 'more', orderList: [] }, { state: 3, text: '待评价', loadingType: 'more', orderList: [] }, { state: 4, text: '售后', loadingType: 'more', orderList: [] }] };}, onLoad: function onLoad() {this.loadData();}, methods: { // 头部点击换颜色方法
+      navList: [{ state: 0, text: '全部', loadingType: 'more', orderList: [] }, { state: 1, text: '待付款', loadingType: 'more', orderList: [] }, { state: 2, text: '待收货', loadingType: 'more', orderList: [] }, { state: 3, text: '待评价', loadingType: 'more', orderList: [] }, { state: 4, text: '售后', loadingType: 'more', orderList: [] }] };}, onLoad: function onLoad(options) {this.currentIndex = options.state;this.loadData();}, methods: { // 头部点击换颜色方法
     tabClick: function tabClick(index) {this.currentIndex = index;}, // 获取订单列表
     loadData: function loadData(source) {var _this = this;var index = this.currentIndex;var navItem = this.navList[index];var state = navItem.state;console.log(index, navItem, state); // 与下面一样的请求到数据一样的
       // this.$api.json('orderList').then(res =>{
@@ -266,7 +266,8 @@ var empty = function empty() {return __webpack_require__.e(/*! import() | compon
       if (source === 'tabChange' && navItem.loaded === true) {//tab切换只有第一次需要加载数据,数据处理一次，下面的就不执行了，return掉了
         return;} // 很重要，不然一直出现转圈
       if (navItem.loadingType === 'loading') {//防止重复加载
-        return;}
+        return;
+      }
 
       navItem.loadingType = 'loading';
 

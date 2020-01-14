@@ -104,7 +104,8 @@
 				]
 			};
 		},
-		onLoad() {
+		onLoad(options) {
+			this.currentIndex = options.state
 			this.loadData()
 		},
 		methods:{

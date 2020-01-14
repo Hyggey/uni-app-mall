@@ -1,10 +1,10 @@
 {
   "pages": [
+    "pages/user/user",
     "pages/order/order",
     "pages/index/index",
     "pages/cart2/cart2",
     "pages/cart/cart",
-    "pages/user/user",
     "pages/category/category"
   ],
   "subPackages": [],
@@ -46,6 +46,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap46.json"
+  "usingComponents": {}
 }
