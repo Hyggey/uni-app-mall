@@ -12,14 +12,14 @@
 		
 		<swiper :current="currentIndex" class="swiper_box" @change="changeTab" duration="800">
 			<swiper-item class="swiper_content" v-for="(tabItem,tabIndex) in navList" :key="tabIndex">
-				<scroll-view scroll-y="true" style="height: 100%;">
+				<scroll-view scroll-y="true" style="height: 100%;" @scrolltolower="loadData">
 					<empty v-if="tabItem.loaded == true && tabItem.orderList.length == 0"></empty>
 					<!-- 订单列表 -->
 					<view class="order-item" v-for="(item,index) in tabItem.orderList" :key="index">
 						<view class="itemTop">
 							<text>{{item.time}}</text>
 							<text :style="{color:item.stateTipColor}">{{item.stateTip}}</text>
-							<text v-if="item.state == 9" class="yticon icon-iconfontshanchu1 del_btn"></text>
+							<text v-if="item.state == 9" @click="delOrder(index)" class="yticon icon-iconfontshanchu1 del_btn"></text>
 						</view>
 						<!-- 条件item.goodsList.length>1的作用，挑选出只用图片的数据，专门对这些进行渲染 -->
 						<scroll-view v-if="item.goodsList.length>1" scroll-x="true" class="goods_box">
@@ -27,7 +27,32 @@
 								<image :src="goodsItem.image" mode="aspectFill"></image>
 							</view>
 						</scroll-view>
-					</view>
+						
+						<!-- 单个商品 -->
+						<view class="wares_box" 
+							v-if="item.goodsList.length == 1"
+							v-for="(goodsItem,goodsIndex) in item.goodsList" :key="goodsIndex"
+							>
+							<image :src="goodsItem.image" mode="aspectFill"></image>
+							<view class="description">
+								<text>{{goodsItem.title}}</text>
+								<text>{{goodsItem.attr}}</text>
+								<text>￥{{goodsItem.price}}</text>
+							</view>
+						</view>
+						<!-- 价格那一栏目 -->
+						<view class="price">
+							<text class="number">共7件商品&nbsp;实付款<text class="priceItem">￥143.7</text></text>
+						</view>
+						<!-- 订单按钮 -->
+						<view class="order_box" v-if="item.state!==9">
+							<button @click="cancelOrder(item)">取消订单</button>
+							<button>立即支付</button>
+						</view>
+					</view> 
+					
+					<uniLoadMore :status="tabItem.loadingType" v-if="tabItem.loadingType !=='nomore'"></uniLoadMore>
+					
 				</scroll-view>
 			</swiper-item>
 		</swiper>
@@ -37,9 +62,11 @@
 <script>
 	import Json from '@/Json';
 	import empty from '@/components/empty.vue'
+	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 	export default {
 		components:{
-			empty
+			empty,
+			uniLoadMore
 		},
 		data() {
 			return {
@@ -100,6 +127,14 @@
 					return;
 				}
 				
+				// 很重要，不然一直出现转圈
+				if(navItem.loadingType === 'loading'){
+					//防止重复加载
+					return;
+				}
+				
+				navItem.loadingType = 'loading';
+				
 				setTimeout(() =>{
 					let orderList = Json.orderList.filter(item =>{
 						//添加不同状态下订单的表现形式
@@ -123,14 +158,52 @@
 					console.log(this.navList)
 					
 					//判断是否还有数据， 有改为 more， 没有改为noMore
-					navItem.loadingType = 'more';
+					navItem.loadingType = 'nomore';
 				},600)
 			},
+			// tab栏切换
 			changeTab(e){
 				console.log(e)
 				this.currentIndex = e.detail.current
 				this.loadData('tabChange')
 			},
+			// 删除订单
+			delOrder(index){
+				// 先找到是全部还是待付款，待评价，然后找到里面要删除哪一个
+				uni.showLoading({
+					title:'请稍后'
+				})
+				setTimeout(() =>{
+					this.navList[this.currentIndex].orderList.splice(index,1);
+					uni.hideLoading()
+				},600)
+				
+			},
+			// 取消订单
+			cancelOrder(item){
+				console.log(item);
+				uni.showLoading({
+					title: '请稍后'
+				})
+				setTimeout(() =>{
+					let {stateTip, stateTipColor} = this.orderStateExp(9);
+					console.log(stateTip,stateTipColor)
+					item = Object.assign(item,{
+						state: 9,
+						stateTip,
+						stateTipColor
+					})
+					
+					// 状态更改完之后，删除待付款中的相同订单
+					let order = this.navList[1].orderList;
+					let index = order.findIndex(item =>item.state == 9)
+					order.splice(index,1)
+					
+					uni.hideLoading()
+				},1000)
+				
+			},
+			// 给每个商品添加颜色属性，订单状态属性
 			orderStateExp(state){
 				let stateTip='',
 				stateTipColor = '#fa436a';
@@ -190,9 +263,10 @@
 			height: calc(100% - 40px);
 			.swiper_content{
 				.order-item{
-					padding: 10rpx;
+					padding: 0rpx 30rpx 0 30rpx;
 					box-sizing: border-box;
 					background: #fff;
+					margin-top: 15rpx;
 					.itemTop{
 						height: 80rpx;
 						display: flex;
@@ -231,6 +305,76 @@
 							image{
 								width: 100%;
 								height: 100%;
+							}
+						}
+					}
+					.price{
+						text-align: right;
+						color: #909399;
+						font-size: 26rpx;
+						padding: 20rpx 30rpx;
+						.number{
+							.priceItem{
+								font-size: 32rpx;
+								color: #303133;
+							}
+						}
+					}
+					.wares_box{
+						display: flex;
+						padding: 20rpx;
+						image{
+							width: 120rpx;
+							height: 120rpx;
+							flex-shrink: 0;
+							margin-right: 20rpx;
+						}
+						.description{
+							display: flex;
+							flex-direction: column;
+							overflow: hidden;
+							justify-content: space-between;
+							text:first-child{
+								overflow: hidden;
+								white-space: nowrap;
+								text-overflow: ellipsis;
+								font-size: 30rpx;
+								color: #303133;
+							}
+							text:nth-child(2){
+								font-size: 26rpx;
+								color: #909399;
+							}
+							text:nth-child(3){
+								font-size: 30rpx;
+							}
+						}
+					}
+					.order_box{
+						display: flex;
+						height: 100rpx;
+						align-items: center;
+						justify-content: flex-end;
+						border-top: 1px solid #DCDFE6;
+						button{
+							width: 160rpx;
+							height: 60rpx;
+							font-size: 26rpx;
+							background: #fff;
+							margin: 0;
+							line-height: 60rpx;
+							text-align: center;
+							margin-left: 24rpx;
+							padding: 0;
+							&:after{
+								border-radius: 100px;
+							}
+						}
+						button:last-child{
+							color: #fa436a;
+							background: #fff9f9;
+							&:after{
+								border-color: #f7bcc8;
 							}
 						}
 					}

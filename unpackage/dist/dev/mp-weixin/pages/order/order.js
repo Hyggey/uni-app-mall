@@ -133,7 +133,32 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -206,34 +231,44 @@ var _Json = _interopRequireDefault(__webpack_require__(/*! @/Json */ 17));functi
 //
 //
 //
-var empty = function empty() {return __webpack_require__.e(/*! import() | components/empty */ "components/empty").then(__webpack_require__.bind(null, /*! @/components/empty.vue */ 69));};var _default = { components: { empty: empty }, data: function data() {return { currentIndex: 0, // 头部选项卡初始选中位置
-      navList: [{ state: 0, text: '全部', loadingType: 'more', orderList: [] }, { state: 1, text: '待付款', loadingType: 'more', orderList: [] }, { state: 2, text: '待收货', loadingType: 'more', orderList: [] }, { state: 3, text: '待评价', loadingType: 'more', orderList: [] }, { state: 4, text: '售后', loadingType: 'more', orderList: [] }] };
-
-
-
-  },
-  onLoad: function onLoad() {
-    this.loadData();
-  },
-  methods: {
-    // 头部点击换颜色方法
-    tabClick: function tabClick(index) {
-      this.currentIndex = index;
-    },
-    // 获取订单列表
-    loadData: function loadData(source) {var _this = this;
-      var index = this.currentIndex;
-      var navItem = this.navList[index];
-      var state = navItem.state;
-      console.log(index, navItem, state);
-      // 与下面一样的请求到数据一样的
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var empty = function empty() {return __webpack_require__.e(/*! import() | components/empty */ "components/empty").then(__webpack_require__.bind(null, /*! @/components/empty.vue */ 69));};var uniLoadMore = function uniLoadMore() {return __webpack_require__.e(/*! import() | components/uni-load-more/uni-load-more */ "components/uni-load-more/uni-load-more").then(__webpack_require__.bind(null, /*! @/components/uni-load-more/uni-load-more.vue */ 108));};var _default = { components: { empty: empty, uniLoadMore: uniLoadMore }, data: function data() {return { currentIndex: 0, // 头部选项卡初始选中位置
+      navList: [{ state: 0, text: '全部', loadingType: 'more', orderList: [] }, { state: 1, text: '待付款', loadingType: 'more', orderList: [] }, { state: 2, text: '待收货', loadingType: 'more', orderList: [] }, { state: 3, text: '待评价', loadingType: 'more', orderList: [] }, { state: 4, text: '售后', loadingType: 'more', orderList: [] }] };}, onLoad: function onLoad() {this.loadData();}, methods: { // 头部点击换颜色方法
+    tabClick: function tabClick(index) {this.currentIndex = index;}, // 获取订单列表
+    loadData: function loadData(source) {var _this = this;var index = this.currentIndex;var navItem = this.navList[index];var state = navItem.state;console.log(index, navItem, state); // 与下面一样的请求到数据一样的
       // this.$api.json('orderList').then(res =>{
       // 	console.log(res)
       // })
-      if (source === 'tabChange' && navItem.loaded === true) {
-        //tab切换只有第一次需要加载数据,数据处理一次，下面的就不执行了，return掉了
-        return;
-      }
+      if (source === 'tabChange' && navItem.loaded === true) {//tab切换只有第一次需要加载数据,数据处理一次，下面的就不执行了，return掉了
+        return;} // 很重要，不然一直出现转圈
+      if (navItem.loadingType === 'loading') {//防止重复加载
+        return;}
+
+      navItem.loadingType = 'loading';
 
       setTimeout(function () {
         var orderList = _Json.default.orderList.filter(function (item) {
@@ -258,14 +293,52 @@ var empty = function empty() {return __webpack_require__.e(/*! import() | compon
         console.log(_this.navList);
 
         //判断是否还有数据， 有改为 more， 没有改为noMore
-        navItem.loadingType = 'more';
+        navItem.loadingType = 'nomore';
       }, 600);
     },
+    // tab栏切换
     changeTab: function changeTab(e) {
       console.log(e);
       this.currentIndex = e.detail.current;
       this.loadData('tabChange');
     },
+    // 删除订单
+    delOrder: function delOrder(index) {var _this2 = this;
+      // 先找到是全部还是待付款，待评价，然后找到里面要删除哪一个
+      uni.showLoading({
+        title: '请稍后' });
+
+      setTimeout(function () {
+        _this2.navList[_this2.currentIndex].orderList.splice(index, 1);
+        uni.hideLoading();
+      }, 600);
+
+    },
+    // 取消订单
+    cancelOrder: function cancelOrder(item) {var _this3 = this;
+      console.log(item);
+      uni.showLoading({
+        title: '请稍后' });
+
+      setTimeout(function () {var _this3$orderStateExp =
+        _this3.orderStateExp(9),stateTip = _this3$orderStateExp.stateTip,stateTipColor = _this3$orderStateExp.stateTipColor;
+        console.log(stateTip, stateTipColor);
+        item = Object.assign(item, {
+          state: 9,
+          stateTip: stateTip,
+          stateTipColor: stateTipColor });
+
+
+        // 状态更改完之后，删除待付款中的相同订单
+        var order = _this3.navList[1].orderList;
+        var index = order.findIndex(function (item) {return item.state == 9;});
+        order.splice(index, 1);
+
+        uni.hideLoading();
+      }, 1000);
+
+    },
+    // 给每个商品添加颜色属性，订单状态属性
     orderStateExp: function orderStateExp(state) {
       var stateTip = '',
       stateTipColor = '#fa436a';
@@ -281,6 +354,7 @@ var empty = function empty() {return __webpack_require__.e(/*! import() | compon
 
       return { stateTip: stateTip, stateTipColor: stateTipColor };
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 
