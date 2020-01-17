@@ -10,7 +10,7 @@
 			</view>
 		</view>
 		
-		<swiper :current="currentIndex" class="swiper_box" @change="changeTab" duration="800">
+		<swiper :current="currentIndex" class="swiper_box" @change="changeTab" duration="400">
 			<swiper-item class="swiper_content" v-for="(tabItem,tabIndex) in navList" :key="tabIndex">
 				<scroll-view scroll-y="true" style="height: 100%;" @scrolltolower="loadData">
 					<empty v-if="tabItem.loaded == true && tabItem.orderList.length == 0"></empty>
